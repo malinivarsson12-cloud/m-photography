@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>M Photography</title>
+  <meta name="description" content="Portfolio of M Photography — selected works, portraits, events, and landscapes." />
+  <link rel="preconnect" href="[fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
+  <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap)" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="#top">M Photography</a>
+      <nav class="nav" aria-label="Primary">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">☰</button>
+        <ul id="nav-menu">
+          <li><a href="#work">Work</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact" class="btn">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <h1>Stories in light.</h1>
+        <p class="sub">Portraits, events, and places — photographed with intention.</p>
+        <a href="#work" class="btn btn-primary">View Work</a>
+      </div>
+      <div class="hero-bg" role="img" aria-label="Black and white portrait close-up."></div>
+    </section>
+
+    <section id="work" class="gallery container">
+      <h2>Selected Work</h2>
+      <div class="grid">
+        <!-- Replace src with your images in /images -->
+        <figure class="card">
+          <img src="images/portrait-01.jpg" alt="Portrait — soft window light." loading="lazy">
+          <figcaption>Portrait — window light</figcaption>
+        </figure>
+        <figure class="card">
+          <img src="images/event-01.jpg" alt="Event — candid laughter." loading="lazy">
+          <figcaption>Event — candid moment</figcaption>
+        </figure>
+        <figure class="card">
+          <img src="images/landscape-01.jpg" alt="Landscape — misty morning." loading="lazy">
+          <figcaption>Landscape — morning mist</figcaption>
+        </figure>
+        <figure class="card">
+          <img src="images/portrait-02.jpg" alt="Portrait — studio low key." loading="lazy">
+          <figcaption>Portrait — low key</figcaption>
+        </figure>
+        <figure class="card">
+          <img src="images/event-02.jpg" alt="Event — dance floor motion blur." loading="lazy">
+          <figcaption>Event — motion blur</figcaption>
+        </figure>
+        <figure class="card">
+          <img src="images/landscape-02.jpg" alt="Landscape — sunset coast." loading="lazy">
+          <figcaption>Landscape — coast at dusk</figcaption>
+        </figure>
+      </div>
+      <div class="cta">
+        <a href="#contact" class="btn">Book a session</a>
+      </div>
+    </section>
+
+    <section id="about" class="about container">
+      <div class="about-text">
+        <h2>About</h2>
+        <p>I’m M, a Sweden‑based photographer focused on authentic portraits, lively events, and atmospheric landscapes. I love natural light, clean compositions, and a calm experience for clients.</p>
+        <ul class="badges" aria-label="Services">
+          <li>Portraits</li>
+          <li>Events</li>
+          <li>Editorial</li>
+          <li>Commercial</li>
+        </ul>
+      </div>
+      <figure class="about-photo">
+        <img src="images/about.jpg" alt="Behind-the-scenes — photographer at work." loading="lazy">
+      </figure>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2>Contact</h2>
+        <p>For bookings and inquiries, email <a href="mailto:hello@mphoto.example">hello@mphoto.example</a> or use the form below.</p>
+        <form class="contact-form" name="contact" method="post" data-netlify="true">
+          <input type="hidden" name="form-name" value="contact">
+          <div class="row">
+            <label>
+              <span>Name</span>
+              <input type="text" name="name" required>
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" required>
+            </label>
+          </div>
+          <label>
+            <span>Message</span>
+            <textarea name="message" rows="5" required></textarea>
+          </label>
+          <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+        <div class="social">
+          <a href="[instagram.com](https://www.instagram.com/)" aria-label="Instagram">Instagram</a>
+          <a href="[facebook.com](https://www.facebook.com/)" aria-label="Facebook">Facebook</a>
+          <a href="[linkedin.com](https://www.linkedin.com/)" aria-label="LinkedIn">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> M Photography. All rights reserved.</p>
+      <a href="#top" class="to-top" aria-label="Back to top">↑</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
