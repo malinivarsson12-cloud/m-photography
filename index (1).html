@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>M Photography</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg2: #f5f5f5;
+      --surface: #ffffff;
+      --text: #1a1a1a;
+      --text-muted: #6b6660;
+      --accent: #1a1a1a;
+      --accent2: #1a1a1a;
+      --pop: #1a1a1a;
+      --border: rgba(26,26,26,0.1);
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 5rem;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--pop); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      padding: 0.6rem 1.5rem;
+      background: var(--text);
+      color: var(--bg) !important;
+      border-radius: 100px;
+      font-weight: 400 !important;
+    }
+    .nav-cta:hover { background: #4a7c6b !important; color: #fff !important; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      padding: 10rem 5rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    .hero-left {}
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--pop);
+      font-weight: 500;
+      margin-bottom: 1.75rem;
+    }
+    .hero-tag::before { content: '●'; font-size: 0.5rem; }
+    .hero h1 {
+      font-family: var(--sans);
+      font-size: clamp(2.45rem, 6.3vw, 5.6rem);
+      font-weight: 500;
+      line-height: 1.0;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: #4a7c6b;
+    }
+    .hero-desc {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+      max-width: 420px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-actions { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+    .btn-dark {
+      padding: 0.85rem 2rem;
+      background: var(--text);
+      color: var(--bg);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      border-radius: 100px;
+      transition: background 0.25s, transform 0.2s;
+    }
+    .btn-dark:hover { background: var(--pop); transform: translateY(-1px); }
+    .btn-ghost {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.25s;
+    }
+    .btn-ghost:hover { color: var(--text); }
+    .btn-ghost::after { content: '→'; }
+
+    /* Hero right – photo grid */
+    .hero-right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 260px 160px;
+      gap: 10px;
+    }
+    .photo-cell {
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+    .photo-cell.big { grid-row: span 2; }
+    .photo-cell-inner {
+      width: 100%; height: 100%;
+      display: flex; align-items: flex-end;
+      padding: 1rem;
+    }
+    .photo-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(4px);
+      color: var(--text);
+    }
+    .photo-cell:nth-child(1) { background: linear-gradient(145deg, #f9d9c8, #f0c4a8); }
+    .photo-cell:nth-child(2) { background: linear-gradient(145deg, #c9d4cf, #a8bdb5); }
+    .photo-cell:nth-child(3) { background: linear-gradient(145deg, #faf2cc, #f0e49e); }
+    .photo-cell:nth-child(4) { background: linear-gradient(145deg, #c5ccd4, #a8b5bf); }
+
+    /* Stats bar */
+    .stats {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 2.5rem 5rem;
+      display: flex;
+      justify-content: center;
+      gap: 6rem;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      color: var(--text);
+      display: block;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ABOUT */
+    .about {
+      padding: 8rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--pop);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .section-label::before { content: ''; width: 24px; height: 2px; background: var(--pop); display: block; border-radius: 2px; }
+    .about h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+    .about h2 em { font-style: italic; color: var(--accent2); }
+    .about p {
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+    .about-photo {
+      aspect-ratio: 4/5;
+      border-radius: 24px;
+      background: linear-gradient(145deg, #c9d4cf, #a8bdb5);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-photo::after {
+      content: 'M';
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 8rem;
+      color: rgba(255,255,255,0.2);
+      position: absolute;
+    }
+    .about-badge {
+      position: absolute;
+      bottom: 2rem;
+      right: -1rem;
+      background: var(--surface);
+      border-radius: 14px;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      min-width: 140px;
+    }
+    .about-badge strong { font-size: 1.3rem; font-weight: 500; font-family: var(--serif); }
+    .about-badge span { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.05em; }
+
+    /* SERVICES */
+    .services {
+      background: #4a7c6b;
+      color: var(--bg);
+      padding: 7rem 5rem;
+    }
+    .services-inner { max-width: 1300px; margin: 0 auto; }
+    .services-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+    .services-top .section-label { color: #ffffff; }
+    .services-top .section-label::before { background: #ffffff; }
+    .services-top h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      color: #f8f6f2;
+      line-height: 1.15;
+    }
+    .services-top h2 em { font-style: italic; color: #ffffff; }
+    .services-top p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.9);
+      max-width: 280px;
+      line-height: 1.7;
+      text-align: right;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .service-card {
+      background: rgba(255,255,255,0.04);
+      padding: 2.5rem;
+      border-radius: 4px;
+      transition: background 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card:hover { background: rgba(255,255,255,0.08); }
+    .service-card:hover .service-num { color: var(--pop); }
+    .service-num {
+      font-family: var(--serif);
+      font-size: 2.5rem;
+      color: rgba(255,255,255,0.25);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+      transition: color 0.3s;
+    }
+    .service-card h3 {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: #f8f6f2;
+      margin-bottom: 0.75rem;
+    }
+    .service-card p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.8;
+    }
+    .service-tag {
+      display: inline-block;
+      margin-top: 1.25rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.4);
+      padding: 0.3rem 0.8rem;
+      border-radius: 100px;
+    }
+
+    /* CONTACT */
+    .contact {
+      padding: 8rem 5rem;
+      max-width: 1300px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .contact-left {}
+    .contact-left h2 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.12;
+      margin-bottom: 1.25rem;
+    }
+    .contact-left h2 em { font-style: italic; color: var(--accent2); }
+    .contact-left p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    .contact-info { display: flex; flex-direction: column; gap: 0.75rem; }
+    .contact-info-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+    .contact-info-icon {
+      width: 36px; height: 36px;
+      background: var(--bg2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+    }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      appearance: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(139,111,94,0.1);
+    }
+    .form-group textarea { resize: none; height: 110px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .btn-submit {
+      margin-top: 0.5rem;
+      padding: 0.95rem 2rem;
+      background: var(--pop);
+      color: #fff;
+      border: none;
+      border-radius: 100px;
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.2s;
+      align-self: flex-start;
+    }
+    .btn-submit:hover { background: #333; transform: translateY(-1px); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface);
+    }
+    .footer-logo {
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .footer-logo span { color: var(--pop); }
+    footer p { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-tag  { animation: fadeUp 0.7s ease 0.1s both; }
+    .hero h1   { animation: fadeUp 0.7s ease 0.25s both; }
+    .hero-desc { animation: fadeUp 0.7s ease 0.4s both; }
+    .hero-actions { animation: fadeUp 0.7s ease 0.55s both; }
+    .hero-right { animation: fadeUp 0.8s ease 0.3s both; }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      nav { padding: 1.25rem 2rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 8rem 2rem 4rem; gap: 3rem; }
+      .hero-right { grid-template-rows: 180px 110px; }
+      .stats { padding: 2rem; gap: 2rem; flex-wrap: wrap; }
+      .about { grid-template-columns: 1fr; padding: 5rem 2rem; gap: 3rem; }
+      .services { padding: 5rem 2rem; }
+      .services-top { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .services-top p { text-align: left; }
+      .services-grid { grid-template-columns: 1fr; gap: 2px; }
+      .contact { grid-template-columns: 1fr; padding: 5rem 2rem; gap: 3rem; }
+      footer { padding: 2rem; flex-direction: column; gap: 0.75rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">M<span>.</span>Photography</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact" class="nav-cta">Book now</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-tag">From Sweden, based everywhere</p>
+      <h1>Moments.<br>Emotions.<br><em>Present.</em></h1>
+      <p class="hero-desc">Finding the beauty in the small things, looking closer than others, trying to capture the small moments.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-dark">Contact</a>
+        <a href="#services" class="btn-ghost">View services</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="photo-cell big">
+        <div class="photo-cell-inner">
+          <span class="photo-label">Portrait</span>
+        </div>
+      </div>
+      <div class="photo-cell">
+        <div class="photo-cell-inner">
+          <span class="photo-label">Wedding</span>
+        </div>
+      </div>
+      <div class="photo-cell">
+        <div class="photo-cell-inner">
+          <span class="photo-label">Travel</span>
+        </div>
+      </div>
+      <div class="photo-cell" style="display:none"></div>
+    </div>
+  </section>
+
+
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-photo">
+      <div class="about-badge">
+        <strong>2016</strong>
+        <span>Est. in Stockholm</span>
+      </div>
+    </div>
+    <div>
+      <p class="section-label">About</p>
+      <h2>A passion for<br><em>authentic moments</em></h2>
+      <p>With an eye trained on the interplay of natural light and genuine emotion, M Photography brings a refined, timeless perspective to every shoot.</p>
+      <p>Whether in a sun-drenched studio or out in the golden hour archipelago of Stockholm, every frame is composed with intention — never rushed, never accidental.</p>
+      <p style="margin-top: 1.5rem;">
+        <a href="#contact" class="btn-dark">Get in touch</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="services-inner">
+      <div class="services-top">
+        <div>
+          <p class="section-label">Services</p>
+          <h2>What we<br><em>offer</em></h2>
+        </div>
+        <p>Every session is tailored to you — your story, your light, your moment.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-left">
+      <p class="section-label">Contact</p>
+      <h2>Let's create<br>something<br><em>beautiful</em></h2>
+      <p>Have a project in mind? Fill out the form and I'll get back to you within 24 hours.</p>
+      <div class="contact-info">
+        <div class="contact-info-row">
+          <span class="contact-info-icon">📍</span>
+          Stockholm, Sweden
+        </div>
+        <div class="contact-info-row">
+          <span class="contact-info-icon">✉️</span>
+          hello@mphotography.se
+        </div>
+        <div class="contact-info-row">
+          <span class="contact-info-icon">📸</span>
+          @m.photography
+        </div>
+      </div>
+    </div>
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First name</label>
+          <input type="text" placeholder="Anna" required />
+        </div>
+        <div class="form-group">
+          <label>Last name</label>
+          <input type="text" placeholder="Lindqvist" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="anna@email.com" required />
+      </div>
+      <div class="form-group">
+        <label>Type of shoot</label>
+        <select>
+          <option value="">Select a service…</option>
+          <option>Portrait session</option>
+          <option>Wedding &amp; events</option>
+          <option>Commercial &amp; editorial</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Tell me about your vision, preferred dates, location…"></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Send message →</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">M<span>.</span>Photography</div>
+    <p>© 2026 M Photography · Stockholm, Sweden</p>
+  </footer>
+
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.btn-submit');
+      const orig = btn.textContent;
+      btn.textContent = 'Message sent ✓';
+      btn.style.background = '#3a9e6e';
+      e.target.reset();
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.style.background = '';
+      }, 3000);
+    }
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.stat, .service-card, .about > *, .contact > *').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(18px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      io.observe(el);
+    });
+  </script>
+</body>
+</html>
